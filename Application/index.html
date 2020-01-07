@@ -59,6 +59,8 @@
     <script src="js/own/tooltip.js"></script>
     <script src="js/own/snackBar.js"></script>
     <script src="js/own/rest.js"></script>
+    <script src="js/own/getPathsToRoom.js"></script>
+
 
     <script type="text/javascript">
         $(window).on('load', function () {
@@ -105,8 +107,8 @@
                 </ul>
                 <ul class="list-unstyled CTAs ">
                     <label for="searchField">Suche:</label>
-                    <input type="search" id="searchField" oninput="onSearchFieldInput()" class="form-control searchField col-12" placeholder="Name / Raum"
-                        aria-label="Username">
+                    <input type="search" id="searchField" oninput="onSearchFieldInput()"
+                        class="form-control searchField col-12" placeholder="Name / Raum" aria-label="Username">
                     <hr>
                     <span id="items-wrapper" class="col-12 noPadding"></span>
             </span>
@@ -147,8 +149,7 @@
                 </ul>
                 <ul class="list-unstyled CTAs">
                     <li>
-                        <a href="https://github.com/philippAuinger/htl-leonding-3D-tadeot"
-                            class="download">GitHub -
+                        <a href="https://github.com/philippAuinger/htl-leonding-3D-tadeot" class="download">GitHub -
                             Repository</a>
                     </li>
                 </ul>
@@ -174,11 +175,11 @@
             <div class="keyboardLayout col-4">
                 <div id="keyboard" class="simple-keyboard"></div>
             </div>
-            
+
             <div class="buttons floorSelection">
                 <button type="" id="cellar" class="smallButton"
                     onclick="floorSelect('cellar'); hideStandort(); normalFloorSelection(); MODE='ROOM'; ">U</button>
-                <button type="" id="ground_floor" class="smallButton" 
+                <button type="" id="ground_floor" class="smallButton"
                     onclick="floorSelect('ground_floor'); showStandort(); normalFloorSelection(); MODE='ROOM'">E</button>
                 <button type="" id="first_floor" class="smallButton"
                     onclick="floorSelect('first_floor'); hideStandort(); normalFloorSelection(); MODE='ROOM'">1</button>
@@ -190,10 +191,14 @@
                 <div id="snackbar">Wetter: 27°C, Luftdruck: 1 bar, Luftfeuchtigk.: 25%</div>
             </div>
             <div class="departmentSelection">
-                <input class="departmentButton" type="image" src="logos/Informatik_small.png" onclick="departmentSelect('Informatik')"/>
-                <input class="departmentButton" type="image" src="logos/Medientechnik_small.png" onclick="departmentSelect('Medientechnik')"/>
-                <input class="departmentButton" type="image" src="logos/Elektronik_small.png" onclick="departmentSelect('Elektronik')"/>
-                <input class="departmentButton" type="image" src="logos/Medizintechnik_small.png" onclick="departmentSelect('Medizintechnik')"/>
+                <input class="departmentButton" type="image" src="logos/Informatik_small.png"
+                    onclick="departmentSelect('Informatik')" />
+                <input class="departmentButton" type="image" src="logos/Medientechnik_small.png"
+                    onclick="departmentSelect('Medientechnik')" />
+                <input class="departmentButton" type="image" src="logos/Elektronik_small.png"
+                    onclick="departmentSelect('Elektronik')" />
+                <input class="departmentButton" type="image" src="logos/Medizintechnik_small.png"
+                    onclick="departmentSelect('Medizintechnik')" />
             </div>
             <div id="descCard" class="card cardSelection col-2">
                 <div class="container">
@@ -204,6 +209,9 @@
             </div>
             <div class="floorDisplay">
                 <h2 id="floorDisplay">Erdgeschoss</h2>
+            </div>
+            <div id="abteilungsImg" class="abteilungImageDisplay">
+                <img src="logos/Abteilungen.png" height="150" width="450">
             </div>
         </div>
 
@@ -266,6 +274,7 @@
                 $("#sidebar_objects").hide();
                 $("#descCard").hide();
                 $("#keyboard").hide();
+                $("#abteilungsImg").hide();
                 $("#floorDisplay").hide();
                 mouse = new THREE.Vector2();
                 raycaster = new THREE.Raycaster();
@@ -339,14 +348,14 @@
             }
 
             var time = new Date().getTime();
-            $(document.body).bind("mousemove keypress touchstart", function(e) {
+            $(document.body).bind("mousemove keypress touchstart", function (e) {
                 time = new Date().getTime();
             });
 
             function refresh() {
-                if(new Date().getTime() - time >= 300000)  //5 Minuten
+                if (new Date().getTime() - time >= 300000)  //5 Minuten
                     window.location.reload(true);
-                else 
+                else
                     setTimeout(refresh, 10000);
             }
 
@@ -354,6 +363,7 @@
 
             function onSeachFieldFocus() {
                 $("#keyboard").show();
+                $("#abteilungsImg").hide();
                 $("#searchField").val('');
                 myKeyboard.input.default = '';
                 onSearchFieldInput();
@@ -376,7 +386,7 @@
                 //console.log("Button pressed", button);
             }
 
-            function ProjectConfig(){
+            function ProjectConfig() {
                 //Elternsprechtag things
                 sphere.visible = true;
                 STANDORT_VISIBLE = true;
@@ -388,7 +398,7 @@
                 exhibitModeEnabled();
             }
 
-            function repositionCamera(){
+            function repositionCamera() {
                 TOOLTIP_VISIBLE = true;
                 camera.position.set(12000, 4000, 7000);
                 controls.target.x = -1829.3479371096257;
@@ -457,6 +467,7 @@
                 $('#sidebar').css("overflow-y", "auto");
                 $("#sidebar_elements").hide();
                 $("#sidebar_objects").show();
+                $("#abteilungsImg").show();
                 controls.target.x = -1829.3479371096257;
                 controls.target.y = -1.6066683324679777e-14;
                 controls.target.z = -2828.006467964322;
@@ -472,6 +483,7 @@
                 $("#sidebar_elements").show();
                 $("#sidebar_objects").hide();
                 $("#keyboard").hide();
+                $("#abteilungsImg").hide();
             }
             function shouldRender() {
                 // Do we need to draw a new frame? //there is space for more attributes 
@@ -517,4 +529,5 @@
             });
         </script>
 </body>
+
 </html>

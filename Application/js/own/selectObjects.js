@@ -26,7 +26,7 @@ function filterVisableRooms() {
     kRooms.forEach(r => visableRooms.push(r));
   }
   //"vor" Problem lösen
-  if (helpChar == "E"){
+  if (helpChar == "E") {
     var vorRooms = objectArr.filter(x => x.name.startsWith('v'));
     vorRooms.forEach(r => visableRooms.push(r));
   }
@@ -38,21 +38,38 @@ function handleEvents() {
 
   if (intersectObjects.length > 0 && MODE == "ROOM") {
     $("#keyboard").hide();
+    $("#abteilungsImg").show();
     allRoomsWhite();
     $("#tooltips").html("");
+    $("#descCard").hide();
     selectedDepartment = "";
     TOOLTIP_VISIBLE = false;
     hideTooltip();
     $("#teacherImage").remove();
 
     selectedRoom = intersectObjects[0].object;
+    var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
+
+    //wenn ein Raum ausgewählt wird der mehrere Austellungen beinhaltet.
+    if (allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3)).length > 1 && exhibit == undefined) { //nur hier reingehen wenn man den Boden auswählt, also exhibit = undefined
+      var roomsToSelect = allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3));
+      var localExhibit = exhibits.find(t => t.room.name == selectedRoom.name);
+      roomsToSelect.forEach(r => {
+        var localExhibit = exhibits.find(t => t.room.name == r.name);
+        if (localExhibit != undefined) {
+          chooseRoom(r.name, localExhibit.supervisor, localExhibit.name, localExhibit.department, true);
+        }
+      });
+      TOOLTIP_VISIBLE = true;
+      return;
+    }
+
     randomColor = new THREE.Color(Math.random() * 0xffffff);
     selectedRoom.material.color = randomColor;
 
     // console.log(selectedRoom.name);
     // console.log(visableRooms);
 
-    var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
     if (exhibit != undefined) {
       setExhibitTooltip(selectedRoom.name, exhibit.name, exhibit.department);
     } else {
@@ -86,10 +103,11 @@ function getAllRooms() {
 
 function chooseRoom(roomName, supervisor, name, department, MULTIPLE_ROOMS) {
   $("#keyboard").hide();
+  $("#abteilungsImg").show();
   repositionCamera();
   if (ENABLEDBUTTONS) {
     var selectedRoomArray = allRooms.filter(room => room.name == roomName);
-    if(!MULTIPLE_ROOMS){
+    if (!MULTIPLE_ROOMS) {
       selectedDepartment = "";
       $("#tooltips").html("");
       allRoomsWhite();
@@ -98,7 +116,7 @@ function chooseRoom(roomName, supervisor, name, department, MULTIPLE_ROOMS) {
     }
     selectedRoom = selectedRoomArray[0];
     if (selectedRoom != undefined) {
-      if(!MULTIPLE_ROOMS){
+      if (!MULTIPLE_ROOMS) {
         path = pathToRoom(selectedRoom.name);
         $("#teacherName").text(name);
         $("#teacherDesc").text(path);
@@ -106,8 +124,8 @@ function chooseRoom(roomName, supervisor, name, department, MULTIPLE_ROOMS) {
         CHOOSING = true;
         chooseFloor(selectedRoom);
       } else {
-          $("#descCard").hide();
-        }
+        $("#descCard").hide();
+      }
       setExhibitTooltip(selectedRoom.name, name, department);
       selectedRoom = selectedRoomArray[0];
       //console.log(selectedRoomArray);
@@ -122,103 +140,34 @@ function chooseRoom(roomName, supervisor, name, department, MULTIPLE_ROOMS) {
 }
 
 function setExhibitTooltip(roomName, name, department) {
-  var imagePath = 'logos/' + department + '.PNG';
-  $.get(imagePath)
+  var departments;
+  var imagePath1;
+  var imagePath2;
+  if(department.includes('/')){
+    departments = department.split('/');
+  }
+
+  if(departments == undefined){
+    imagePath1 = 'logos/' + department + "_big" + '.png';
+  }else{
+    imagePath1 = 'logos/' + departments[0] + "_big" + '.png';
+    imagePath2 = 'logos/' + departments[1] + "_big" + '.png';
+  }
+  $.get(imagePath1)
     .done(function () {
-      updateTooltip(roomName, name, department, true);
-      $('#' + roomName + 'Image').attr("src", imagePath);
+      if(departments == undefined){
+        updateTooltip(roomName, name, department, true, false);
+        $('#' + roomName + 'Image1').attr("src", imagePath1);
+        return;
+      }
+      if(departments.length > 1){
+        updateTooltip(roomName, name, department, true, true);
+        $('#' + roomName + 'Image1').attr("src", imagePath1);
+        $('#' + roomName + 'Image2').attr("src", imagePath2);
+      } 
     }).fail(function () {
-      updateTooltip(roomName, name, department, false);
+      updateTooltip(roomName, name, department, false, false);
     });
-}
-
-function pathToRoom(roomName) {
-
-  var path = "";
-  var roomNumber = roomName[1];
-  roomNumber += roomName[2];
-
-  if (roomName[0] == "K") {
-    path += "Gehen Sie nach links bis zum Ende des Ganges.\n Gehen Sie die Treppe hinunter.\n Die Klasse befindet sich links."
-    return path;
-  }
-
-  else if (roomName[0] == "U") {
-    path += "Gehen Sie ein Stockwerk runter. \n";
-
-    if (roomNumber >= 39 && roomNumber <= 92) {
-      path += "Gehen Sie anschließend nach links.";
-    }
-    else {
-      path += "Gehen Sie anschließend nach rechts.";
-    }
-  }
-
-  else if (roomName[0] == "E") {
-    path += "Bleiben Sie im selben Stockwerk.\n"
-
-    if (roomNumber >= 05 && roomNumber <= 26 || (roomNumber >= 71 && roomNumber <= 74)) {
-      path += "Gehen Sie nach links. \n"
-      if (roomNumber >= 05 && roomNumber <= 18) {
-        path += "Gehen Sie anschließend nach rechts.";
-      }
-      else {
-        path += "Gehen Sie anschließend nach links.";
-      }
-    }
-    else {
-      path += "Gehen Sie nach rechts und anschließend nach links."
-    }
-  }
-
-  else if (roomName[0] == 1) {
-    path += "Gehen Sie ein Stockwerk nach oben. \n";
-
-    if (roomNumber >= 31 && roomNumber <= 48) {
-      path += "Gehen Sie nach links. \n";
-
-      if (roomNumber >= 31 && roomNumber <= 38) {
-        path += "Gehen Sie anschließend nach rechts.";
-      }
-      else {
-        path += "Gehen Sie anschließend nach links.";
-      }
-
-    }
-
-    else {
-      path += "Gehen Sie nach rechts. \n";
-      if (roomNumber >= 03 && roomNumber <= 15) {
-        path += "Gehen Sie anschließend nach rechts.";
-      }
-      else {
-        path += "Gehen Sie anschließend nach links.";
-      }
-    }
-  }
-
-  else if (roomName[0] == 2) {
-    path += "Gehen Sie zwei Stockwerke nach oben. \n";
-    if (roomNumber >= 26 && roomNumber <= 41) {
-      path += "Gehen Sie nach links. \n";
-      if (roomNumber >= 26 && roomNumber <= 36) {
-        path += "Gehen Sie anschließend nach rechts."
-      }
-      else {
-        path += "Gehen Sie anschließend nach links."
-      }
-    }
-    else {
-      path += "Gehen Sie nach rechts. \n";
-      if (roomNumber >= 03 && roomNumber <= 08) {
-        path += "Gehen Sie anschließend nach rechts."
-      }
-      else {
-        path += "Gehen Sie anschließend nach links."
-      }
-    }
-  }
-  return path;
 }
 
 async function onDocumentMouseDown(event) {
@@ -245,7 +194,7 @@ async function onDocumentMouseDown(event) {
 
 async function onDocumentMouseUp(event) {
   // console.log("Mouse up");
-  TOOLTIP_VISIBLE = false;
+  TOOLTIP_VISIBLE = true;
 }
 
 async function onDocumentTouchEnd(event) {
@@ -288,58 +237,77 @@ function departmentSelect(departmentName) {
 
   var roomArrayWithDepartment = [];
   exhibitsWithDepartment.forEach(e => {
-    roomArrayWithDepartment.push(allRooms.filter(r => r.name ==  e.room.name)[0]);
+    roomArrayWithDepartment.push(allRooms.filter(r => r.name == e.room.name)[0]);
   });
 
   var currentlySelectedFloorOK = true;
 
   roomArrayWithDepartment.forEach(r => {
-    if(r != undefined){
+    if (r != undefined) {
       var floorChar = r.name.charAt(0);
-        if (floorChar == "U" || floorChar == "K") {
-          if('cellar' == currentlySelectedFloor){
-            currentlySelectedFloorOK = true;
-          } else{
-            currentlySelectedFloorOK = false;
-          }
-        } else if (floorChar == "E") {
-          if('ground_floor' == currentlySelectedFloor){
-            currentlySelectedFloorOK = true;
-          } else{
-            currentlySelectedFloorOK = false;
-          }
-        } else if (floorChar == "1") {
-          if('first_floor' == currentlySelectedFloor){
-            currentlySelectedFloorOK = true;
-          } else{
-            currentlySelectedFloorOK = false;
-          }
+      if (floorChar == "U" || floorChar == "K") {
+        if ('cellar' == currentlySelectedFloor) {
+          currentlySelectedFloorOK = true;
         } else {
-          if('second_floor' == currentlySelectedFloor){   
-            currentlySelectedFloorOK = true;     
-          } else{
-            currentlySelectedFloorOK = false;
-          }
+          currentlySelectedFloorOK = false;
         }
+      } else if (floorChar == "E" || floorChar == "v") {
+        if ('ground_floor' == currentlySelectedFloor) {
+          currentlySelectedFloorOK = true;
+        } else {
+          currentlySelectedFloorOK = false;
+        }
+      } else if (floorChar == "1") {
+        if ('first_floor' == currentlySelectedFloor) {
+          currentlySelectedFloorOK = true;
+        } else {
+          currentlySelectedFloorOK = false;
+        }
+      } else {
+        if ('second_floor' == currentlySelectedFloor) {
+          currentlySelectedFloorOK = true;
+        } else {
+          currentlySelectedFloorOK = false;
+        }
+      }
     }
   });
-  
-  if(!currentlySelectedFloorOK){
+
+  if (!currentlySelectedFloorOK) {
     chooseFloor(roomArrayWithDepartment[0]);
   }
+  var exhibitsFilterByDepartment = exhibits.filter(x => x.department.includes(departmentName));
+  var floorNames = [];
+  exhibitsFilterByDepartment.forEach(e => {
+    if(!floorNames.includes(e.room.name[0])){
+      floorNames.push(e.room.name[0]);
+    }
+  });
+  $("#teacherName").text(departmentName);
+  $("#teacherDesc").text("Austellungen insgesamt: " + exhibitsFilterByDepartment.length + "\n Stockwerke: ");
+  floorNames.forEach(n => {
+    if(n != 'K'){
+      $("#teacherDesc").append(n);
+    }
+    console.log(floorNames.indexOf(n));
+    if(floorNames.length != 1 && n != floorNames[floorNames.length - 1] && n != 'K'){
+      $("#teacherDesc").append(', ');
+    }
+  });
+  $("#descCard").show();
 }
 
 function allRoomsWhite() {
   allRooms.forEach(r => r.material.color = white);
 }
 
-function chooseFloor(room){
+function chooseFloor(room) {
   var floorChar = room.name.charAt(0);
   MODE = "ROOM";
   if (floorChar == "U" || floorChar == "K") {
     floorSelect('cellar');
     hideStandort();
-  } else if (floorChar == "E") {
+  } else if (floorChar == "E" || floorChar == "v") {
     floorSelect('ground_floor');
     showStandort();
   } else if (floorChar == "1") {
@@ -351,7 +319,7 @@ function chooseFloor(room){
   }
 }
 
-function calculateLatestMouseIntersection(room){
+function calculateLatestMouseIntersection(room) {
   var vector = new THREE.Vector3(
     room.geometry.attributes.position.array[0],
     room.geometry.attributes.position.array[1],

@@ -1,3 +1,10 @@
+.abteilungImageDisplay {
+  position: absolute;
+  top: 1%;
+  left: 21%;
+  color: white;
+}
+
 .floorDisplay {
   position: absolute;
   bottom: 0;
@@ -138,7 +145,7 @@ img {
 }
 
 #items-wrapper {
-  height: 80vh !important;
+  height: 55vh !important;
 }
 
 span#sidebar_credits {
@@ -199,7 +206,7 @@ canvas {
   opacity: 0;
   border: 1px solid black;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-  transition: opacity 0.25s linear;
+  transition: opacity 0.375s linear;
   border-radius: 3px;
   font-family: "Poppins", sans-serif;
   z-index: 0;

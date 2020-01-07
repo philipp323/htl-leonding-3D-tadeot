@@ -36,22 +36,30 @@ function showTooltip() {
   }
 }
 
-function updateTooltip(RoomName, name, department, pictureNeeded) {
+function updateTooltip(RoomName, name, department, pictureNeeded, twoPictures) {
     document.getElementById('tooltips').innerHTML += "<div id='" + RoomName + "' class='tooltip' style='display:none'></div>";
     divElement = document.getElementById(RoomName);
     if(pictureNeeded){
-      divElement.innerHTML = "<img id='" + RoomName + 'Image' + "' height='50' width='300'></img>";
-      divElement.innerHTML +=
-      "<br> Raum: " + RoomName + "<br>";
+      divElement.innerHTML = "<div class='row'><div class=''><img id='" + RoomName + 'Image1' + "' height='60' width='60' style='margin-left:8px; margin-right:8px'></img></div>" 
+      + "<span style='padding-top:8px; margin-right: 8px;'>Raum: " + RoomName + "<br>"
+      + "Austellung: " + name + "</span></div>";
+      // divElement.innerHTML +=
+      // "<span class='col-9'>Raum: " + RoomName + "</span></div><br>";
     }else {
       divElement.innerHTML =
       "Raum: " + RoomName + "<br>";
+
+      if(name != "-"){
+        divElement.innerHTML += "Austellung: " + name;
+      } else {
+        divElement.innerHTML += "Keine Austellung verfügbar.";
+      }
     }
 
-    if(name != "-"){
-      divElement.innerHTML += "Austellung: " + name;
-    } else {
-      divElement.innerHTML += "Keine Austellung verfügbar.";
+    if(twoPictures){
+      divElement.innerHTML = "<div class='row'><div class=''><img id='" + RoomName + 'Image1' + "' height='60' width='60' style='margin-left:8px; margin-right:8px'></img></div>" 
+      + "<span style='padding-top:8px;'>Raum: " + RoomName + "<br>"
+      + "Austellung: " + name + "</span>" + "<img id='" + RoomName + 'Image2' + "' height='60' width='60' style='margin-left:6px; margin-right:8px'></img></div>";
     }
 
     /*if(department != "-"){
