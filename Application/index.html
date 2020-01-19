@@ -185,7 +185,7 @@
                     onclick="floorSelect('first_floor'); hideStandort(); normalFloorSelection(); MODE='ROOM'">1</button>
                 <button type="" id="second_floor" class="smallButton"
                     onclick="floorSelect('second_floor'); hideStandort(); normalFloorSelection(); MODE='ROOM'">2</button>
-                <button type="" id="ceiling" class="smallButton active" active="true"
+                <button type="" id="ceiling" class="smallButton" active="true"
                     onclick="floorSelect('ceiling'); hideStandort(); normalFloorSelection(); MODE='FLOOR';">A</button>
                 <!-- The actual snackbar -->
                 <div id="snackbar">Wetter: 27°C, Luftdruck: 1 bar, Luftfeuchtigk.: 25%</div>
@@ -212,6 +212,11 @@
             </div>
             <div id="abteilungsImg" class="abteilungImageDisplay">
                 <img src="logos/Abteilungen.png" height="150" width="450">
+            </div>
+            <div class="clickButtonDisplay">
+                <button type="" id="clickModeBtn" class="smallButton" onclick="changeClickMode();">
+                    <i class="fas fa-hand-point-up"></i>
+                </button>
             </div>
         </div>
 
@@ -267,6 +272,7 @@
             var standort = document.getElementById("standort");
             var exhibitsWithDepartment = [];
             var selectedDepartment;
+            var CLICKABLE = true;
             init();
             animate();
             loadModel();
@@ -276,6 +282,7 @@
                 $("#keyboard").hide();
                 $("#abteilungsImg").hide();
                 $("#floorDisplay").hide();
+                $("#clickModeBtn").addClass("smallButtonClicked");
                 mouse = new THREE.Vector2();
                 raycaster = new THREE.Raycaster();
                 white = new THREE.Color();
@@ -394,8 +401,18 @@
                 floorSelect('ground_floor');
                 camera.position.set(4829.710752213626, 1536.9198223473481, 1474.4091782572204);
                 $("#floorDisplay").show();
-                showStandort();
+                // showStandort();
                 exhibitModeEnabled();
+            }
+
+            function changeClickMode(){
+                if(CLICKABLE){
+                    CLICKABLE = false;
+                    $("#clickModeBtn").removeClass("smallButtonClicked");
+                }else{
+                    CLICKABLE = true;
+                    $("#clickModeBtn").addClass("smallButtonClicked");
+                }
             }
 
             function repositionCamera() {
@@ -417,7 +434,9 @@
                 sphere.visible = false;
             }
             function normalFloorSelection() {
-                $("#descCard").hide();
+                if(selectedDepartment == ""){
+                    $("#descCard").hide();
+                }
                 hideTooltip();
             }
             function showStandort() {

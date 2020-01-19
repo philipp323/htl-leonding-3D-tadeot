@@ -32,10 +32,17 @@ public class InitBean {
         BufferedReader csvReader = new BufferedReader(new InputStreamReader(csvStream));
         while ((row = csvReader.readLine()) != null) {
             String[] data = row.split(";");
-            Room room = new Room(data[0]);
+            Room room = new Room(data[0], data[7]);
             em.persist(room);
             //String name, String supervisor, String department, Exhibit exhibit
-            Exhibit exhibit = new Exhibit(data[1],data[2],data[3],room,Integer.parseInt(data[4]),Integer.parseInt(data[5]),Integer.parseInt(data[6]));
+            Exhibit exhibit = new Exhibit(
+                    data[1],
+                    data[2],
+                    data[3],
+                    room,Integer.parseInt(data[4]),
+                    Integer.parseInt(data[5]),
+                    Integer.parseInt(data[6]),
+                    data[8]);
             em.persist(exhibit);
         }
         csvReader.close();

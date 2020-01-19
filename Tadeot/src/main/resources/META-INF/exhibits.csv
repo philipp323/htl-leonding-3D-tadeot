@@ -1,41 +1,41 @@
-﻿E02_1;Empfang;Schröder;-;1100;80;-1000
-E22;HTL im Überblick, Kurzpräsentation;Schlesinger;-;0;0;0
-E23;HTL im Überblick, Kurzpräsentation;Schlesinger;-;0;0;0
-E26;HTL im Überblick, Kurzpräsentation;Schlesinger;-;0;0;0
-vor E26;Führungen;Schlesinger/Schröder;-;-1100;80;1400
-E30_1;Anmeldung;Dumfart;-;1600;80;-2000
-E30_2;Beratungszentrum;Reder;-;1400;80;-3000
-E02_2;Jobbörse;Tumfart Hannes;-;350;80;-1700
-vor Bibliothek;Informationen zu Schülerheimen;Schlesinger;-;4000;80;-2100
-E30_3;Program of Support, Program of Excellence;Bodenstorfer;-;2000;80;-1800
-120;Mathematik anwenden und begreifen;Rumetshofer;-;0;0;0
-101_1;Buffet im 1.Stock ;Lehenbauer, Schröder;Informatik;1400;390;-1800
-101_2;School-IoT;Köck, Lackinger;Informatik/Elektronik;0;390;150
-101_3;Autonomes Fahren;Kurz, Bauer;Informatik/Elektronik;900;390;-400
-101_4;Nao - Football Games;Bauer;Informatik;1600;390;150
-104;Best of Projects (Präsentationen);Schröder;Informatik/Medientechnik;0;0;0
-109a;Roboterführerschein;Stütz;Informatik;0;0;0
-106;Informatik-Experimente;Stütz;Informatik;0;0;0
-105;Virtual Reality;Bucek;Informatik;0;0;0
-119;English class goes web;Bauer/Kodre;Informatik;0;0;0
-109b;Informatik-Netzwerklabor;Stöttinger, Kaser;Informatik;0;0;0
-123;Schnupperprogrammieren;Auernig;Informatik;0;0;0
-E71;Medientechnik Cinema, Video- und Animationsprojekte;Engleitner;Medientechnik;0;0;0
-E72;Web Garden, Webanwendungen Webprojekte;Rager;Medientechnik;0;0;0
-E24;Project Garden, Medientechnische Projekte;Rager;Medientechnik;0;0;0
-E73;Practice Garden, Videoschnitt, Effect-Editing und 3D-Design;Engleitner;Medientechnik;0;0;0
-K04;Picture Garden, Fotostudio;Huemer;Medientechnik;0;0;0
-U35;Sound Garden, Tonstudio;Baar;Medientechnik;0;0;0
-U36;Video Garden,Videostudio;Baar;Medientechnik;0;0;0
-101_5;Ausstellung Modellfabrik;Schlesinger;Elektronik;900;390;500
-147;Elektronik und Technische Informatik;Nimmervoll;Elektronik;0;0;0
-146;Robotik und Automatisierung;Kurz;Elektronik;0;0;0
-143;Hardware- und Softwareentwicklung;Lüftner;Elektronik;0;0;0
-U72;Elektronik-Grundlagen-Labor;Billinger;Elektronik;0;0;0
-UG/Buffet;Führung Werkstätten Elektronik;Huber;Elektronik;-3300;-230;-4900
-UG (Schutzraum);Robotik;Wenigwieser;Elektronik;0;0;0
-UG;Buffet im Untergeschoß;Lehenbauer / 4AFEL;Elektronik;-3300;-230;-5150
-132;Medizintechnik;Prantl;Medizintechnik;0;0;0
-133;Lernbüro;Povacz;-;0;0;0
-U04b;Biomedizin-Labor;Knogler;Medizintechnik;0;0;0
-U04a;Medizintechnik-Labor;Baier;Medizintechnik;0;0;0
+﻿E22;HTL im Überblick,Kurzpräsentation;Schlesinger;-;0;0;0;E22;HTL im Überblick,<br>Kurzpräsentation
+E23;HTL im Überblick,Kurzpräsentation;Schlesinger;-;0;0;0;E23;HTL im Überblick,<br>Kurzpräsentation
+E26;HTL im Überblick,Kurzpräsentation;Schlesinger;-;0;0;0;E26;HTL im Überblick,<br>Kurzpräsentation
+vor E26;Führungen;Schlesinger/Schröder;-;-994;80;535;vor E26;Führungen
+E30_1;Anmeldung;Dumfart;-;1536;80;-1643;E30;Anmeldung
+E30_2;Beratungszentrum;Reder;-;1400;80;-3000;E30;Beratungszentrum
+E02_2;Jobbörse;Tumfart Hannes;-;350;80;-1700;E02;Jobbörse
+vor Bibliothek;Informationen zu Schülerheimen;Schlesinger;-;2728;80;-1722;vor Bibliothek;Informationen zu Schülerheimen
+E30_3;Program of Support,Program of Excellence;Bodenstorfer;-;2000;80;-1800;E30;Program of Support,<br>Program of Excellence
+120;Mathematik anwenden und begreifen;Rumetshofer;-;0;0;0;120;Mathematik anwenden und begreifen
+101_1;Buffet 1.Stock;Lehenbauer, Schröder;-;1250;390;-727;101;Buffet 1.Stock
+101_2;School-IoT;Köck, Lackinger;Informatik/Medientechnik/Elektronik;831;390;-254;101;School-IoT
+101_3;Autonomes Fahren;Kurz, Bauer;Informatik/Elektronik;340;390;47;101;Autonomes Fahren
+101_4;Nao Soccer;Bauer;Informatik;1591;390;315;101;Nao Soccer
+119;Best of Projects (Präsentationen);Schröder;Informatik/Medientechnik;0;0;0;119;Best of Projects (Präsentationen)
+109a;Roboterführerschein;Stütz;Informatik;0;0;0;109a;Roboterführerschein
+106;Informatik-Experimente;Stütz;Informatik;0;0;0;106;Informatik-Experimente
+105;Virtual Reality;Bucek;Informatik;0;0;0;105;Virtual Reality
+104;English Class Goes Web;Bauer/Kodre;Informatik;0;0;0;104;English Class Goes Web
+109b;Informatik-Netzwerklabor;Stöttinger, Kaser;Informatik;0;0;0;109b;Informatik-Netzwerklabor
+123;Schnupperprogrammieren;Auernig;Informatik/Medientechnik;0;0;0;123;Schnupperprogrammieren
+E71;Medientechnik Cinema,Video- und Animationsprojekte;Engleitner;Medientechnik;0;0;0;E71;Medientechnik Cinema,<br>Video- und Animationsprojekte
+E72;Web Garden,Webanwendungen Webprojekte;Rager;Medientechnik;0;0;0;E72;Web Garden,<br>Webanwendungen Webprojekte
+E24;Project Garden,Medientechnische Projekte;Rager;Medientechnik;0;0;0;E24;Project Garden,<br>Medientechnische Projekte
+E73;Practice Garden,Videoschnitt, Effect-Editing und 3D-Design;Engleitner;Medientechnik;0;0;0;E73;Practice Garden,<br>Videoschnitt, Effect-Editing<br>und 3D-Design
+K04;Picture Garden, Fotostudio;Huemer;Medientechnik;0;0;0;K04;Picture Garden, Fotostudio
+U35;Sound Garden, Tonstudio;Baar;Medientechnik;0;0;0;U35;Sound Garden, Tonstudio
+U36;Video Garden, Videostudio;Baar;Medientechnik;0;0;0;U36;Video Garden, Videostudio
+101_5;Hochregallager;Schlesinger;Elektronik;-251;390;131;101;Hochregallager
+147;Elektronik und Technische Informatik;Nimmervoll;Elektronik;0;0;0;147;Elektronik und Technische Informatik
+146;Robotik und Automatisierung;Kurz;Elektronik;0;0;0;146;Robotik und Automatisierung
+143;Hardware- und Softwareentwicklung;Lüftner;Elektronik;0;0;0;143;Hardware- und Softwareentwicklung
+U72;Grundlagen-Labor;Billinger;Elektronik;0;0;0;U72;Elektronik-Grundlagen-Labor
+U73;Elektronik-Labor;Billinger;Elektronik;0;0;0;U73;Elektronik-Labor
+UG/Buffet;Führung Werkstätten Elektronik;Huber;Elektronik;-4181;-230;-5034;UG/Buffet;Führung Werkstätten Elektronik
+U41;Industrieroboter;Wenigwieser;Elektronik;0;0;0;U41 Robolab;Industrieroboter
+UG;Buffet Untergeschoss;Lehenbauer / 4AFEL;-;-3287;-230;-4560;UG;Buffet Untergeschoss
+132;Medizintechnik;Prantl;Medizintechnik;0;0;0;132;Medizintechnik
+133;Lernbüro;Povacz;-;0;0;0;133;Lernbüro
+U04b;Biomedizin-Labor;Knogler;Medizintechnik;0;0;0;U04b;Biomedizin-Labor
+U04a;Medizintechnik-Labor;Baier;Medizintechnik;0;0;0;U04a;Medizintechnik-Labor

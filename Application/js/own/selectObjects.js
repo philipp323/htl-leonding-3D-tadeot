@@ -36,7 +36,15 @@ function handleEvents() {
   intersectObjects = raycaster.intersectObjects(visableRooms, true);
   intersectedFloors = raycaster.intersectObjects(objects, true);
 
-  if (intersectObjects.length > 0 && MODE == "ROOM") {
+  if (intersectObjects.length > 0 && MODE == "ROOM" && CLICKABLE) {
+    selectedRoom = intersectObjects[0].object;
+    var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
+
+    //101/E30/E02 unclickbar machen
+    if(selectedRoom.name == "101" || selectedRoom.name == "E02" || selectedRoom.name == "E30"){
+      return 0;
+    }
+
     $("#keyboard").hide();
     $("#abteilungsImg").show();
     allRoomsWhite();
@@ -51,18 +59,18 @@ function handleEvents() {
     var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
 
     //wenn ein Raum ausgewählt wird der mehrere Austellungen beinhaltet.
-    if (allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3)).length > 1 && exhibit == undefined) { //nur hier reingehen wenn man den Boden auswählt, also exhibit = undefined
-      var roomsToSelect = allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3));
-      var localExhibit = exhibits.find(t => t.room.name == selectedRoom.name);
-      roomsToSelect.forEach(r => {
-        var localExhibit = exhibits.find(t => t.room.name == r.name);
-        if (localExhibit != undefined) {
-          chooseRoom(r.name, localExhibit.supervisor, localExhibit.name, localExhibit.department, true);
-        }
-      });
-      TOOLTIP_VISIBLE = true;
-      return;
-    }
+    // if (allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3)).length > 1 && exhibit == undefined) { //nur hier reingehen wenn man den Boden auswählt, also exhibit = undefined
+    //   var roomsToSelect = allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3));
+    //   var localExhibit = exhibits.find(t => t.room.name == selectedRoom.name);
+    //   roomsToSelect.forEach(r => {
+    //     var localExhibit = exhibits.find(t => t.room.name == r.name);
+    //     if (localExhibit != undefined) {
+    //       chooseRoom(r.name, localExhibit.supervisor, localExhibit.name, localExhibit.department, true);
+    //     }
+    //   });
+    //   TOOLTIP_VISIBLE = true;
+    //   return;
+    // }
 
     randomColor = new THREE.Color(Math.random() * 0xffffff);
     selectedRoom.material.color = randomColor;
@@ -71,9 +79,13 @@ function handleEvents() {
     // console.log(visableRooms);
 
     if (exhibit != undefined) {
-      setExhibitTooltip(selectedRoom.name, exhibit.name, exhibit.department);
+      setExhibitTooltip(selectedRoom.name, exhibit.tooltipText, exhibit.department, exhibit.room.visibleName);
+      path = pathToRoom(selectedRoom.name);
+      $("#teacherName").text(exhibit.name);
+      $("#teacherDesc").text(path);
+      $("#descCard").show();
     } else {
-      updateTooltip(selectedRoom.name, "-", "-", false);
+      updateTooltip(selectedRoom.name, "-", "-", selectedRoom.name, false, false);
     }
     needsUpdate = true;
     setTimeout(function () {
@@ -100,46 +112,44 @@ function getAllRooms() {
       x.name != floors[3]
   );
 }
-
-function chooseRoom(roomName, supervisor, name, department, MULTIPLE_ROOMS) {
+function chooseRoom(roomName, MULTIPLE_ROOMS) {
   $("#keyboard").hide();
   $("#abteilungsImg").show();
-  repositionCamera();
-  if (ENABLEDBUTTONS) {
-    var selectedRoomArray = allRooms.filter(room => room.name == roomName);
+  //repositionCamera();
+  var selectedRoomArray = allRooms.filter(room => room.name == roomName);
+  if (!MULTIPLE_ROOMS) {
+    selectedDepartment = "";
+    $("#tooltips").html("");
+    allRoomsWhite();
+    hideTooltip();
+    $("#teacherImage").remove();
+  }
+  selectedRoom = selectedRoomArray[0];
+  if (selectedRoom != undefined) {
+    var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
     if (!MULTIPLE_ROOMS) {
-      selectedDepartment = "";
-      $("#tooltips").html("");
-      allRoomsWhite();
-      hideTooltip();
-      $("#teacherImage").remove();
+      path = pathToRoom(selectedRoom.name);
+      $("#teacherName").text(exhibit.name);
+      $("#teacherDesc").text(path);
+      $("#descCard").show();
+      CHOOSING = true;
+      chooseFloor(selectedRoom);
+    } else {
+      $("#descCard").hide();
     }
+    setExhibitTooltip(selectedRoom.name, exhibit.tooltipText, exhibit.department, exhibit.room.visibleName);
     selectedRoom = selectedRoomArray[0];
-    if (selectedRoom != undefined) {
-      if (!MULTIPLE_ROOMS) {
-        path = pathToRoom(selectedRoom.name);
-        $("#teacherName").text(name);
-        $("#teacherDesc").text(path);
-        $("#descCard").show();
-        CHOOSING = true;
-        chooseFloor(selectedRoom);
-      } else {
-        $("#descCard").hide();
-      }
-      setExhibitTooltip(selectedRoom.name, name, department);
-      selectedRoom = selectedRoomArray[0];
-      //console.log(selectedRoomArray);
-      //console.log(selectedRoom);
+    //console.log(selectedRoomArray);
+    //console.log(selectedRoom);
 
-      randomColor = new THREE.Color(Math.random() * 0xffffff);
-      selectedRoom.material.color = randomColor;
+    randomColor = new THREE.Color(Math.random() * 0xffffff);
+    selectedRoom.material.color = randomColor;
 
-      CHOOSING = false;
-    }
+    CHOOSING = false;
   }
 }
 
-function setExhibitTooltip(roomName, name, department) {
+function setExhibitTooltip(roomName, name, department, visibleRoomName) {
   var departments;
   var imagePath1;
   var imagePath2;
@@ -156,23 +166,23 @@ function setExhibitTooltip(roomName, name, department) {
   $.get(imagePath1)
     .done(function () {
       if(departments == undefined){
-        updateTooltip(roomName, name, department, true, false);
+        updateTooltip(roomName, name, department, visibleRoomName, true, false);
         $('#' + roomName + 'Image1').attr("src", imagePath1);
         return;
       }
       if(departments.length > 1){
-        updateTooltip(roomName, name, department, true, true);
+        updateTooltip(roomName, name, department, visibleRoomName, true, true);
         $('#' + roomName + 'Image1').attr("src", imagePath1);
         $('#' + roomName + 'Image2').attr("src", imagePath2);
       } 
     }).fail(function () {
-      updateTooltip(roomName, name, department, false, false);
+      updateTooltip(roomName, name, department, visibleRoomName, false, false);
     });
 }
 
 async function onDocumentMouseDown(event) {
   //event.preventDefault();
-  console.log("Entered Mouse-Down");
+  //console.log("Entered Mouse-Down");
   TOOLTIP_VISIBLE = true;
   //console.log(controls);
 
@@ -229,11 +239,10 @@ function departmentSelect(departmentName) {
   allRoomsWhite();
   $("#tooltips").html("");
   exhibitsWithDepartment = exhibits.filter(x => x.department.includes(departmentName));
-  console.log(exhibitsWithDepartment);
 
   selectedDepartment = departmentName;
 
-  exhibitsWithDepartment.forEach(e => chooseRoom(e.room.name, e.supervisor, e.name, e.department, true));
+  exhibitsWithDepartment.forEach(e => chooseRoom(e.room.name, true));
 
   var roomArrayWithDepartment = [];
   exhibitsWithDepartment.forEach(e => {
@@ -289,7 +298,7 @@ function departmentSelect(departmentName) {
     if(n != 'K'){
       $("#teacherDesc").append(n);
     }
-    console.log(floorNames.indexOf(n));
+    //console.log(floorNames.indexOf(n));
     if(floorNames.length != 1 && n != floorNames[floorNames.length - 1] && n != 'K'){
       $("#teacherDesc").append(', ');
     }

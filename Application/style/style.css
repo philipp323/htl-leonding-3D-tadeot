@@ -5,6 +5,30 @@
   color: white;
 }
 
+.smallButtonClicked {
+  margin-right: 10px;
+  margin-top: 10px;
+  transition: 500ms;
+  border-radius: 12px;
+  border: none;
+  color: #26a3a1 !important;
+  background-color: #fff !important;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: bold;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  outline: none;
+}
+
+.clickButtonDisplay {
+  position: absolute;
+  bottom: 0;
+  left: 21%;
+  margin-bottom: 10px;
+}
+
 .floorDisplay {
   position: absolute;
   bottom: 0;
@@ -282,15 +306,15 @@ button:active{
   transition: 500ms;
   border-radius: 12px;
   border: none;
-  color: #80cbc4 !important;
-  background-color: #fff !important;
-  padding: 5px 17px;
+  background-color: #26a3a1;
+  color: white;
+  padding: 5px 15px;
   text-align: center;
-  text-decoration: bold;
-  font-weight: bold;
+  text-decoration: none;
   display: inline-block;
   font-size: 16px;
   outline: none;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 button[type="button"] {

@@ -20,11 +20,12 @@ public class Exhibit {
     private int x;
     private int y;
     private int z;
+    private String tooltipText;
 
     @OneToOne
     private Room room;
 
-    public Exhibit(String name, String supervisor, String department, Room room, int x, int y, int z) {
+    public Exhibit(String name, String supervisor, String department, Room room, int x, int y, int z, String tooltipText) {
         this.name = name;
         this.supervisor = supervisor;
         this.department = department;
@@ -32,6 +33,7 @@ public class Exhibit {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.tooltipText = tooltipText;
     }
 
     public Exhibit() {
@@ -99,5 +101,13 @@ public class Exhibit {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public String getTooltipText() {
+        return tooltipText;
+    }
+
+    public void setTooltipText(String tooltipText) {
+        this.tooltipText = tooltipText;
     }
 }

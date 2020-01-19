@@ -1,5 +1,5 @@
 function request(){
-    console.log("REST-Abfrage gestartet.");
+    console.log("REST: Request started...");
 
     // Create a request variable and assign a new XMLHttpRequest object to it.
     var request = new XMLHttpRequest()
@@ -14,12 +14,13 @@ function request(){
         exhibits.sort((a, b) => a.name.localeCompare(b.name));
 
         if (request.status >= 200 && request.status < 400) {
+            console.log("REST: Request finished.");
             console.log(exhibits);
             addItemsToHTML(exhibits);
             setupSpheres();
             getAllRooms();
         } else {
-            console.log('error')
+            console.log("REST: Request error.");
         }
     }
 
@@ -53,12 +54,14 @@ function addItemsToHTML(list){
         var html =
           '<li>' +
           '<a id="' + item.room.name + 'listItem' + '" class="download cursor" onclick="chooseExhibit(\'' + 
-          item.room.name + '\',\'' + item.supervisor + '\',\'' + item.name + '\',\'' + item.department + 
-          '\')"' +
+          item.room.name + '\')"' +
           '>' +
-          item.name + " (Raum: " + item.room.name +
-          ")</a></li>";
+          item.name + "</a></li>";
         itemsDiv.append(html);
+        if(departments.length == 3){
+            $('#' + item.room.name + 'listItem').css('background', 'linear-gradient(to right, '+ departments[0] +', '+ departments[1] +', '+ departments[2]);
+            $('#' + item.room.name + 'listItem').css('color', 'white');
+        }
         if(departments.length == 2){
             //$('#' + item.room.name + 'listItem').css('background', 'linear-gradient(to right, '+ departments[0] +' 50%, '+ departments[1] +' 50%');
             $('#' + item.room.name + 'listItem').css('background', 'linear-gradient(to right, '+ departments[0] +', '+ departments[1] +'');
@@ -91,6 +94,6 @@ function setupSpheres(){
     });
 }
 
-function chooseExhibit(room, supervisor, name, department){
-    chooseRoom(room, supervisor, name, department, false);
+function chooseExhibit(roomName){
+    chooseRoom(roomName, false);
 }

@@ -50,6 +50,7 @@ async function floorSelect(name) {
   }
   if (floors[1].toString() == visableFloorName) {
     $("#floorDisplay").text("Erdgeschoss");
+    showStandort();
   }
   if (floors[2].toString() == visableFloorName) {
     $("#floorDisplay").text("1. Obergeschoss");

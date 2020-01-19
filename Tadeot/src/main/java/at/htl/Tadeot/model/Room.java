@@ -13,14 +13,25 @@ public class Room {
 
     private String name;
 
+    private String visibleName;
+
     public Room(){}
 
-    public Room(String name) {
+    public Room(String name, String visibleName) {
         this.name = name;
+        this.visibleName = visibleName;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getVisibleName() {
+        return visibleName;
+    }
+
+    public void setVisibleName(String visibleName) {
+        this.visibleName = visibleName;
     }
 
     public String getName() {
