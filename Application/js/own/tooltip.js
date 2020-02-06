@@ -39,7 +39,7 @@ function showTooltip() {
     }
   }
 }
-function updateTooltip(RoomName, name, department, visibleRoomName, pictureNeeded, twoPictures) {
+function updateTooltip(RoomName, name, department, visibleRoomName, pictureNeeded, twoPictures, threePictures) {
     document.getElementById('tooltips').innerHTML += 
     '<div id="' + RoomName + '" class="tooltip"' + 
     ' onClick="chooseRoom(\'' + 
@@ -70,6 +70,16 @@ function updateTooltip(RoomName, name, department, visibleRoomName, pictureNeede
       + name + " (" + visibleRoomName + ")</span>" + "<div class='' id='" + RoomName + 'Image2Div' + "'>" + 
         "<img id='" + RoomName + 'Image2' + "' height='30px' width='30px' style='margin-left:6px; margin-right:8px'></img></div>";
       // $(".sidebar").css({'height':($(".content").height()+'px')});
+    }
+
+    if(threePictures){
+        divElement.innerHTML = "<div class='row'><div class='' id='" + RoomName + 'Image1Div' + "'>" + 
+        "<img id='" + RoomName + 'Image1' + "' height='30px' width='30px' style='margin-left:8px; margin-right:8px'></img></div>" + 
+        "<div class='' id='" + RoomName + 'Image2Div' + "'>" + 
+        "<img id='" + RoomName + 'Image2' + "' height='30px' width='30px' style='margin-right:8px'></img></div>" 
+      + "<span style='padding-top:5px;'>"
+      + name + " (" + visibleRoomName + ")</span>" + "<div class='' id='" + RoomName + 'Image3Div' + "'>" + 
+        "<img id='" + RoomName + 'Image3' + "' height='30px' width='30px' style='margin-left:6px; margin-right:8px'></img></div>";
     }
 
     /*if(department != "-"){

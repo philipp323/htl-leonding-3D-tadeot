@@ -57,6 +57,10 @@ function handleEvents() {
 
     selectedRoom = intersectObjects[0].object;
     var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
+    if(line != undefined){
+      line.visible = false;
+    }
+    mqttPublish("StandortE", selectedRoom.name);
 
     //wenn ein Raum ausgewählt wird der mehrere Austellungen beinhaltet.
     // if (allRooms.filter(r => r.name.substring(0, 3) == selectedRoom.name.substring(0, 3)).length > 1 && exhibit == undefined) { //nur hier reingehen wenn man den Boden auswählt, also exhibit = undefined
@@ -109,7 +113,8 @@ function getAllRooms() {
       x.name != floors[0] &&
       x.name != floors[1] &&
       x.name != floors[2] &&
-      x.name != floors[3]
+      x.name != floors[3] &&
+      x.name != 'ceiling'
   );
 }
 function chooseRoom(roomName, MULTIPLE_ROOMS) {
@@ -128,6 +133,10 @@ function chooseRoom(roomName, MULTIPLE_ROOMS) {
   if (selectedRoom != undefined) {
     var exhibit = exhibits.find(t => t.room.name == selectedRoom.name);
     if (!MULTIPLE_ROOMS) {
+      if(line != undefined){
+        line.visible = false;
+    }
+      mqttPublish("StandortE", selectedRoom.name);
       path = pathToRoom(selectedRoom.name);
       $("#teacherName").text(exhibit.name);
       $("#teacherDesc").text(path);
@@ -141,7 +150,7 @@ function chooseRoom(roomName, MULTIPLE_ROOMS) {
     selectedRoom = selectedRoomArray[0];
     //console.log(selectedRoomArray);
     //console.log(selectedRoom);
-
+    
     randomColor = new THREE.Color(Math.random() * 0xffffff);
     selectedRoom.material.color = randomColor;
 
@@ -153,27 +162,38 @@ function setExhibitTooltip(roomName, name, department, visibleRoomName) {
   var departments;
   var imagePath1;
   var imagePath2;
+  var imagePath3;
   if(department.includes('/')){
     departments = department.split('/');
   }
 
   if(departments == undefined){
     imagePath1 = 'logos/' + department + "_big" + '.png';
-  }else{
+  }else if(departments.length == 2){
     imagePath1 = 'logos/' + departments[0] + "_big" + '.png';
     imagePath2 = 'logos/' + departments[1] + "_big" + '.png';
+  }else if(departments.length == 3){
+    imagePath1 = 'logos/' + departments[0] + "_big" + '.png';
+    imagePath2 = 'logos/' + departments[1] + "_big" + '.png';
+    imagePath3 = 'logos/' + departments[2] + "_big" + '.png';
   }
   $.get(imagePath1)
     .done(function () {
       if(departments == undefined){
-        updateTooltip(roomName, name, department, visibleRoomName, true, false);
+        updateTooltip(roomName, name, department, visibleRoomName, true, false, false);
         $('#' + roomName + 'Image1').attr("src", imagePath1);
         return;
       }
-      if(departments.length > 1){
-        updateTooltip(roomName, name, department, visibleRoomName, true, true);
+      if(departments.length == 2){
+        updateTooltip(roomName, name, department, visibleRoomName, true, true, false);
         $('#' + roomName + 'Image1').attr("src", imagePath1);
         $('#' + roomName + 'Image2').attr("src", imagePath2);
+      }
+      if(departments.length == 3){
+        updateTooltip(roomName, name, department, visibleRoomName, true, false, true);
+        $('#' + roomName + 'Image1').attr("src", imagePath1);
+        $('#' + roomName + 'Image2').attr("src", imagePath2);
+        $('#' + roomName + 'Image3').attr("src", imagePath3);
       } 
     }).fail(function () {
       updateTooltip(roomName, name, department, visibleRoomName, false, false);
@@ -236,6 +256,9 @@ async function onControlsChange() {
 }
 
 function departmentSelect(departmentName) {
+  if(line != undefined){
+    line.visible = false;
+  }
   allRoomsWhite();
   $("#tooltips").html("");
   exhibitsWithDepartment = exhibits.filter(x => x.department.includes(departmentName));
@@ -307,7 +330,15 @@ function departmentSelect(departmentName) {
 }
 
 function allRoomsWhite() {
-  allRooms.forEach(r => r.material.color = white);
+  allRooms.forEach(r => {
+      r.material.color.setHex(0xffffff);
+      if(r.isSphere){
+        //r.material = new THREE.MeshBasicMaterial({ color: 0xc7c7c7 }); //invisible
+        r.material.color.setHex(0xCCCCCC);
+        needsUpdate = true;
+        //r.visible = false;
+      }
+  });
 }
 
 function chooseFloor(room) {

@@ -79,8 +79,10 @@ function setupSpheres(){
     exhibitsWithoutRooms.forEach(e => {
         if(e.y != 0){
             var geometry = new THREE.SphereGeometry(80, 32, 32);
-            var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            var material = new THREE.MeshBasicMaterial({ color: 0xCCCCCC });
+            //var material = new THREE.MeshBasicMaterial({ color: 0xc7c7c7 });  //invisible
             var exhibit = new THREE.Mesh(geometry, material);
+            //exhibit.visible = false;
             exhibit.name = e.room.name;
             exhibit.position.x = e.x;
             exhibit.position.y = e.y;
@@ -88,6 +90,7 @@ function setupSpheres(){
             exhibit.geometry.attributes = {};
             exhibit.geometry.attributes.position = {};
             exhibit.geometry.attributes.position.array = [exhibit.position.x,exhibit.position.y,exhibit.position.z];
+            exhibit.isSphere = true;
             scene.add(exhibit);
             objectArr.push(exhibit);
         }
@@ -97,3 +100,30 @@ function setupSpheres(){
 function chooseExhibit(roomName){
     chooseRoom(roomName, false);
 }
+
+// function getPathREST(from, to){
+//     console.log("REST: Request started...");
+
+//     // Create a request variable and assign a new XMLHttpRequest object to it.
+//     var request = new XMLHttpRequest();
+
+//     //your backend url
+//     request.open('GET', 'http://vm90.htl-leonding.ac.at:8080/node');
+//     request.onload = function() {
+//         if(data != undefined){
+//             var data = JSON.parse(this.response)
+//             if (request.status >= 200 && request.status < 400) {
+//                 console.log("REST: Request finished.");
+//                 drawPath(data);
+//             } else {
+//                 console.log("REST: Request error.");
+//             }
+//         }
+//         else {
+//             console.log("Keinen Weg gefunden.... (data = undefined)");
+//         }
+//     }
+
+//     // Send request
+//     request.send();
+// }

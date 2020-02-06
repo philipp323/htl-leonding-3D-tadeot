@@ -72,7 +72,12 @@ async function move(direction, roomsToMove) {
 			enableButtonsAfterAnimation();
 			//mov.position.y = 0;
 			TOOLTIP_VISIBLE = true;
-			movArr.forEach(obj => getRoomsToHide(obj).forEach(r => r.visible = true));
+			movArr.forEach(obj => getRoomsToHide(obj).forEach(r => {
+				r.visible = true;
+				// if(r.geometry.type != "SphereGeometry"){
+				// 	r.visible = false;
+				// }
+			}));
 			//back to zero and make unvisible
 			movArr.forEach(obj => {
 				obj.visible = true;

@@ -1,134 +1,50 @@
-function getData() {
-  var firstfloor_mqtt = ["e582", "e581", "e59"];
-  var secondfloor_mqtt = ["123", "aula"];
-  var thirdfloor_mqtt = [];
-  var basement_mqtt = [];
-  var floors_mqtt = ["basement", "firstfloor", "secondfloor", "thirdfloor"];
-  var floorArray = [
-    basement_mqtt,
-    firstfloor_mqtt,
-    secondfloor_mqtt,
-    thirdfloor_mqtt
-  ];
-
-  var valueArr = [];
-
-  var clientId = "" + Math.floor(Math.random() * 10000000000000001);
-  var client = new Paho.MQTT.Client(
-    "vm61.htl-leonding.ac.at",
-    Number(1883),
-    "" + "0b0dd00e24ca40b4a695d0d7319aea86"
-  );
-  client.startTrace();
-  client.onConnectionLost = onConnectionLost;
-  client.onMessageArrived = onMessageArrived;
-
-  client.connect({
-    timeout: 1000,
-    userName: "4bhif",
-    password: "8dhj45ug",
-    onSuccess: onConnect,
-    useSSL: false
+var client;
+function loadMqtt() {
+  console.log("MQTT: Attempting to connect...");
+  client = mqtt.connect("wss://leonie.htl-leonding.ac.at/mqtt-ws", {
+    clientId: generateUUID()
   });
-  console.log("attempting to connect...");
 
-  function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-  }
+  client.on('connect', function () {
+    console.log("MQTT: Connected!");
+    client.subscribe('path/result/tadeot', function (err) {
+      // if (!err) {
+      //   client.publish(JSON.stringify({room: "101_1"}));
+      // }
+    });
+  });
 
-  function onConnect() {
-    console.log("connection successful");
+  client.on('message', function (topic, message) {
+    console.log(message.toString());
+    var nodeArray = JSON.parse(message.toString());
+    drawPathMQTT(nodeArray);      
+  });
+}
 
-    for (var i = 0; i < floorArray.length; i++) {
-      //console.log(floors_mqtt[i]);
-      for (var j = 0; j < floorArray[i].length; j++) {
-        //console.log(floorArray[i][j]);
-        if (floorArray[i][j] == "aula" || floorArray[i][j] == "123") {
-          //console.log(floorArray[i][j]);
-          client.subscribe(
-            "htlleonding/" +
-              floors_mqtt[i] +
-              "/" +
-              floorArray[i][j] +
-              "/beamer/+"
-          );
-          /*
-                if(floorArray[i][j] == "aula"){
+function drawPathMQTT(nodeArray){
+  drawPath(nodeArray);
+}
 
-                    console.log("htlleonding/"+floors_mqtt[i]+"/"+floorArray[i][j]+"/kaffee/power");
-                    client.subscribe("htlleonding/"+floors_mqtt[i]+"/"+floorArray[i][j]+"/kaffee/Power");
-                }
-                */
-        } else {
-          client.subscribe(
-            "htlleonding/" + floors_mqtt[i] + "/" + floorArray[i][j] + "/pc/+"
-          );
-        }
-      }
-    }
-    /* Fill FirstFloor with rooms
-    for(var i = 0; i < 75;i++){
-      if(i<10){
-        firstfloor.push("E0"+i);
-        console.log("E0"+i);
-      }
-      else{
-        firstfloor.push("E"+i);
-        console.log("E"+i);
-      }
-    }
-    firstfloor.push("E581","E582");
-    console.log(firstfloor);
-      
-    */
-  }
+function mqttPublish(from, to){
+  client.publish("path", JSON.stringify({system: 'tadeot',from: encodeURI(from), to: encodeURI(to)}));
+  console.log("Published: " + JSON.stringify({system: 'tadeot',from: encodeURI(from), to: encodeURI(to)}));
+}
 
-  function onConnectionLost(responseObject) {
-    if (responseObject.errorCode !== 0) {
-      console.log("Connection lost:" + responseObject.errorMessage);
-      console.log(responseObject);
-    }
-  }
-
-  function onMessageArrived(message) {
-    console.log(
-      "Message Arrived:" + message.payloadString + " " + message.destinationName
-    );
-
-    //JSON - to String (splitted)
-    //dann die einzelnen Values heraus parsen.
-    var decoded = JSON.parse(message.payloadString.toString());
-    var splittedString = message.destinationName.split("/");
-    var room = splittedString[splittedString.length - 3];
-    var floorName = splittedString[splittedString.length - 4];
-    var datatype = splittedString[splittedString.length - 1];
-    if (valueArr.find(x => x.topic == message.destinationName)) {
-      var index = valueArr.indexOf(
-        valueArr.find(x => x.topic == message.destinationName)
-      );
-      valueArr[index] = {
-        value: decoded,
-        topic: message.destinationName,
-        room: room,
-        floor: floorName,
-        datatype: datatype
-      };
+function generateUUID() {
+  // Public Domain/MIT
+  var d = new Date().getTime(); //Timestamp
+  var d2 = (performance && performance.now && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16; //random number between 0 and 16
+    if (d > 0) {
+      //Use timestamp until depleted
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
     } else {
-      valueArr.push({
-        value: decoded,
-        topic: message.destinationName,
-        room: room,
-        floor: floorName,
-        datatype: datatype
-      });
+      //Use microseconds since page-load if supported
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
     }
-
-    if (objectSelected != null) {
-      if (filter == "basic") {
-        sendName(objectSelected.name);
-      }
-    }
-
-    //console.log(valueArr);
-  }
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
 }
