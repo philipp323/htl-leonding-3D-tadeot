@@ -443,88 +443,102 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Philipp Auinger &lt;philipp-auinger@gmx.at&gt;, Nenad Tripić &lt;tripicnenad@hotmail.com&gt;</span><br>
 <span id="revnumber">version 1.0,</span>
-<span id="revdate">2020-03-27</span>
+<span id="revdate">2020-04-20</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Inhaltsverzeichnis</div>
-<ul class="sectlevel1">
-<li><a href="#_pflichtenheft_3d_htl_leonding_tag_der_offenen_tür">1. Pflichtenheft - 3D-HTL-Leonding-Tag der offenen Tür</a>
 <ul class="sectlevel2">
-<li><a href="#_ausgangssituation">1.1. Ausgangssituation</a></li>
-<li><a href="#_istzustand">1.2. Istzustand</a></li>
-<li><a href="#_problemstellung">1.3. Problemstellung</a></li>
-<li><a href="#_aufgabenstellung">1.4. Aufgabenstellung</a>
-<ul class="sectlevel3">
-<li><a href="#_funktionale_anforderungen">1.4.1. Funktionale Anforderungen</a></li>
-<li><a href="#_nichtfunktionale_anforderungen_nfa">1.4.2. Nichtfunktionale Anforderungen (NFA)</a></li>
-</ul>
-</li>
-<li><a href="#_ziel">1.5. Ziel</a></li>
-</ul>
-</li>
-<li><a href="#_systemarchitektur">2. Systemarchitektur</a></li>
+<li><a href="#_pflichtenheft">1. Pflichtenheft</a></li>
+<li><a href="#_wo_ist_das_programm_gehostet">2. Wo ist das Programm gehostet?</a></li>
+<li><a href="#_worum_handelt_dieses_projekt">3. Worum handelt dieses Projekt?</a></li>
+<li><a href="#_wie_starte_ich_das_projekt">4. Wie starte ich das Projekt?</a></li>
+<li><a href="#_wie_fuktioniert_dieses_programm">5. Wie fuktioniert dieses Programm?</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_pflichtenheft_3d_htl_leonding_tag_der_offenen_tür">1. Pflichtenheft - 3D-HTL-Leonding-Tag der offenen Tür</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_ausgangssituation">1.1. Ausgangssituation</h3>
+<h3 id="_pflichtenheft">1. Pflichtenheft</h3>
 <div class="paragraph">
-<p>Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, Elektronik und Medizintechnik. Jedes Jahr kommen hunderte Schüler von Unterstufen zum Tag der offenen Tür um sich die tollen Projekte der Schüler der HTL-Leonding anzusehen und um ein Gefühl für die Schule zu bekommen.</p>
+<p>Das Pflichtenheft finden Sie als <a href="https://philippauinger.github.io/htl-leonding-3D-tadeot/Pflichtenheft/Pflichtenheft.html">Website</a>, <a href="Pflichtenheft/Pflichtenheft.adoc">adoc</a> oder <a href="Pflichtenheft/Pflichtenheft.pdf">PDF</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_istzustand">1.2. Istzustand</h3>
+<h3 id="_wo_ist_das_programm_gehostet">2. Wo ist das Programm gehostet?</h3>
 <div class="paragraph">
-<p>Wenn man die Schule betritt wird man vom Empfang registriert und auf die spannendsten Projekte mit einer Broschüre aufmerksam gemacht. Ab da sind die Interessenten teilweise auf sich alleine gestellt wenn sie nicht einem Guide zugewiesen werden.</p>
+<p>Diese Applikation finden Sie auf <a href="http://vm85.htl-leonding.ac.at/tadeot/" class="bare">http://vm85.htl-leonding.ac.at/tadeot/</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_problemstellung">1.3. Problemstellung</h3>
+<h3 id="_worum_handelt_dieses_projekt">3. Worum handelt dieses Projekt?</h3>
 <div class="paragraph">
-<p>Da die meisten von ihnen das erste Mal in der HTL-Leonding sind wissen sie natürlich nicht wie man am besten zu den Ausstellungsstücken hinkommt.</p>
+<p>Diese Projekt wurde extra für den Tag der offenen Tür kreiert. Es ist ein Derivat von <a href="https://github.com/philippAuinger/htl-leonding-3D-base">Base</a> und erweitert es um diverse Funktionen. Beispiele für solche Erweiterungen sind:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Suche nach Austellungstücken</p>
+</li>
+<li>
+<p>Anzeigen von Abteilungen</p>
+</li>
+<li>
+<p>Anzeigen von Wegen zum Stand</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Mehr Informationen entnehmen Sie bitte dem <a href="https://philippauinger.github.io/htl-leonding-3D-tadeot/Pflichtenheft/Pflichtenheft.html">Pflichtenheft</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_aufgabenstellung">1.4. Aufgabenstellung</h3>
-<div class="sect3">
-<h4 id="_funktionale_anforderungen">1.4.1. Funktionale Anforderungen</h4>
+<h3 id="_wie_starte_ich_das_projekt">4. Wie starte ich das Projekt?</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Am einfachsten lässt sich das Projekt mit dem Shell-Skript ausführen. (Hinweis: Abhängig vom Betriebssystem können die Zeilenendsequenzen Probleme machen. Im Regelfall aber nicht!)
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>Um diese Suche zu vereinfachen und angenehmer zu machen wird ein Programm entwickelt, dass per Suche nach dem Namen der Ausstellung den jeweiligen Raum in der Schule anzeigt, von welchem Zweig das Projekt stammt und die Raumnummer ausgibt.</p>
+<p>Die ganze Applikation mit allen benötigten Komponenten wird gedockert und im Repository zur Verfügung gestellt. Dabei wird beim <code>docker-compose up</code> oder beim Ausführen des <a href="lokal_testen.sh">Shell-Skriptes</a> folgendes gemacht:</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>NGINX</strong> container erstellt und der <a href="Application">Application-Ordner</a> mit der ganzen Logik auf den NGINX deployed</p>
+</li>
+<li>
+<p><strong>Postgres</strong> container erstellt mit den Zugangsdaten <code>POSTGRES_USER: postgres</code> <code>POSTGRES_PASSWORD: passme</code></p>
+</li>
+<li>
+<p><strong>Wildfly</strong> container erstellt und <a href="Tadeot.war" class="bare">Tadeot.war</a> deployed</p>
+</li>
+</ol>
 </div>
-<div class="sect3">
-<h4 id="_nichtfunktionale_anforderungen_nfa">1.4.2. Nichtfunktionale Anforderungen (NFA)</h4>
 <div class="paragraph">
-<p>Zusätzlich sollen Informationen wie das Abteilungslogo und eine Route im Schulmodell angezeigt werden beziehungsweise eine detaillierte Routenbeschreibung.</p>
-</div>
+<p>Das Ergebnis kann dann auf <a href="http://localhost:80" class="bare">http://localhost:80</a> oder auf <a href="http://{DockerIP-Adresse}:80" class="bare">http://{DockerIP-Adresse}:80</a> begutachtet werden.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ziel">1.5. Ziel</h3>
+<h3 id="_wie_fuktioniert_dieses_programm">5. Wie fuktioniert dieses Programm?</h3>
 <div class="paragraph">
-<p>Ziel ist es die Suche so angenehm und intuitiv wie möglich für alle Betroffenen zu machen. Nachdem die Suche nach einem Ausstellungsstück erfolgreich war soll die Person mindestens die Raumnummer und die Abteilung wissen. Außerdem kann er/sie ein Abteilungslogo Begutachten und die eingezeichnete Route folgen, um den Raum noch schneller zu finden. Falls die Route nicht reicht bekommt er eine detaillierte Routenbeschreibung zu jeder Suche. Gleichzeitig wir an der linken Seite des Bildschirms eine Liste mit allen Projekten angezeigt die nach den entsprechenden Abteilungen eingefärbt ist.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_systemarchitektur">2. Systemarchitektur</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Grundsätzlich wird die Applikation auf einem NGINX-Server gehostet der unter <a href="http://vm85.htl-leonding.ac.at/tadeot/" class="bare">http://vm85.htl-leonding.ac.at/tadeot/</a> erreichbar ist. Die Anwendung basiert auf HTML und JS somit läuft sie auf allen gängigen Browsern. Wird nach einem Lehrer gesucht und gefunden wird eine MQTT-Anfrage an den Broker geschickt der dann eine Route empfängt zum einzeichnen. Weitere Abläufe entnehmen Sie bitte der Abbildung.
-<span class="image"><img src="images/HTL-3D-SysArchitektur.png" alt="Systemarchitektur"></span></p>
-</div>
+<p>Ein Application Server, in diesem Falle ein Wildfly, liest eine CSV-Datei ein von Ausstellungsstücken (<a href="Tadeot/src/main/resources/META-INF/exhibits.csv">exhibits.csv</a>) und persitiert die Daten in die Postgres Datenbank. Gleichzeitig stellt der Wildfly die Daten über eine <a href="http://vm85.htl-leonding.ac.at:8080/Tadeot/api/exhibit">API</a> zur Verfügung. Per JavaScript wird dann auf diese Schnittstelle zugegriffen und im Programm als Liste von Ausstellungsstücken dargestellt. Der HTML-Code und JavaScript wird auf den NGINX deployed und somit die ganze Applikation zugänglich gemacht.</p>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2020-03-27 17:27:13 +0100
+Last updated 2020-04-20 21:02:29 +0200
 </div>
 </div>
 </body>
