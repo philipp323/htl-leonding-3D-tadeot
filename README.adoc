@@ -1,6 +1,6 @@
 = 3D-HTL-Leonding-Tag der offenen Tür - Auinger & Tripić - 5BHIF 2019/2020
 Philipp Auinger <philipp-auinger@gmx.at>, Nenad Tripić  <tripicnenad@hotmail.com>
-v1.0, 2020-03-27
+v1.0, 2020-04-20
 :toc:
 :toc-title: Inhaltsverzeichnis
 :toclevels: 3
@@ -14,27 +14,33 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-== Pflichtenheft - 3D-HTL-Leonding-Tag der offenen Tür
+=== Pflichtenheft
+Das Pflichtenheft finden Sie als https://philippauinger.github.io/htl-leonding-3D-tadeot/Pflichtenheft/Pflichtenheft.html[Website], link:Pflichtenheft/Pflichtenheft.adoc[adoc] oder link:Pflichtenheft/Pflichtenheft.pdf[PDF]
 
-=== Ausgangssituation
-Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, Elektronik und Medizintechnik. Jedes Jahr kommen hunderte Schüler von Unterstufen zum Tag der offenen Tür um sich die tollen Projekte der Schüler der HTL-Leonding anzusehen und um ein Gefühl für die Schule zu bekommen.
+=== Wo ist das Programm gehostet?
+Diese Applikation finden Sie auf http://vm85.htl-leonding.ac.at/tadeot/
 
-=== Istzustand
-Wenn man die Schule betritt wird man vom Empfang registriert und auf die spannendsten Projekte mit einer Broschüre aufmerksam gemacht. Ab da sind die Interessenten teilweise auf sich alleine gestellt wenn sie nicht einem Guide zugewiesen werden.
+=== Worum handelt dieses Projekt?
+Diese Projekt wurde extra für den Tag der offenen Tür kreiert. Es ist ein Derivat von https://github.com/philippAuinger/htl-leonding-3D-base[Base] und erweitert es um diverse Funktionen. Beispiele für solche Erweiterungen sind:
 
-=== Problemstellung
-Da die meisten von ihnen das erste Mal in der HTL-Leonding sind wissen sie natürlich nicht wie man am besten zu den Ausstellungsstücken hinkommt.
+* Suche nach Austellungstücken
+* Anzeigen von Abteilungen
+* Anzeigen von Wegen zum Stand
+* ...
 
-=== Aufgabenstellung
-==== Funktionale Anforderungen
-Um diese Suche zu vereinfachen und angenehmer zu machen wird ein Programm entwickelt, dass per Suche nach dem Namen der Ausstellung den jeweiligen Raum in der Schule anzeigt, von welchem Zweig das Projekt stammt und die Raumnummer ausgibt.
+Mehr Informationen entnehmen Sie bitte dem https://philippauinger.github.io/htl-leonding-3D-tadeot/Pflichtenheft/Pflichtenheft.html[Pflichtenheft]
 
-==== Nichtfunktionale Anforderungen (NFA)
-Zusätzlich sollen Informationen wie das Abteilungslogo und eine Route im Schulmodell angezeigt werden beziehungsweise eine detaillierte Routenbeschreibung.
 
-=== Ziel
-Ziel ist es die Suche so angenehm und intuitiv wie möglich für alle Betroffenen zu machen. Nachdem die Suche nach einem Ausstellungsstück erfolgreich war soll die Person mindestens die Raumnummer und die Abteilung wissen. Außerdem kann er/sie ein Abteilungslogo Begutachten und die eingezeichnete Route folgen, um den Raum noch schneller zu finden. Falls die Route nicht reicht bekommt er eine detaillierte Routenbeschreibung zu jeder Suche. Gleichzeitig wir an der linken Seite des Bildschirms eine Liste mit allen Projekten angezeigt die nach den entsprechenden Abteilungen eingefärbt ist.
+=== Wie starte ich das Projekt?
+TIP: Am einfachsten lässt sich das Projekt mit dem Shell-Skript ausführen. (Hinweis: Abhängig vom Betriebssystem können die Zeilenendsequenzen Probleme machen. Im Regelfall aber nicht!)
 
-== Systemarchitektur
-Grundsätzlich wird die Applikation auf einem NGINX-Server gehostet der unter http://vm85.htl-leonding.ac.at/tadeot/ erreichbar ist. Die Anwendung basiert auf HTML und JS somit läuft sie auf allen gängigen Browsern. Wird nach einem Lehrer gesucht und gefunden wird eine MQTT-Anfrage an den Broker geschickt der dann eine Route empfängt zum einzeichnen. Weitere Abläufe entnehmen Sie bitte der Abbildung.
-image:images/HTL-3D-SysArchitektur.png[Systemarchitektur]
+Die ganze Applikation mit allen benötigten Komponenten wird gedockert und im Repository zur Verfügung gestellt. Dabei wird beim `docker-compose up` oder beim Ausführen des link:lokal_testen.sh[Shell-Skriptes] folgendes gemacht:
+
+. *NGINX* container erstellt und der link:Application[Application-Ordner] mit der ganzen Logik auf den NGINX deployed
+. *Postgres* container erstellt mit den Zugangsdaten `POSTGRES_USER: postgres` `POSTGRES_PASSWORD: passme`
+. *Wildfly* container erstellt und link:Tadeot.war[] deployed
+
+Das Ergebnis kann dann auf http://localhost:80 oder auf http://{DockerIP-Adresse}:80 begutachtet werden.
+
+=== Wie fuktioniert dieses Programm?
+Ein Application Server, in diesem Falle ein Wildfly, liest eine CSV-Datei ein von Ausstellungsstücken (link:Tadeot/src/main/resources/META-INF/exhibits.csv[exhibits.csv]) und persitiert die Daten in die Postgres Datenbank. Gleichzeitig stellt der Wildfly die Daten über eine http://vm85.htl-leonding.ac.at:8080/Tadeot/api/exhibit[API] zur Verfügung. Per JavaScript wird dann auf diese Schnittstelle zugegriffen und im Programm als Liste von Ausstellungsstücken dargestellt. Der HTML-Code und JavaScript wird auf den NGINX deployed und somit die ganze Applikation zugänglich gemacht.
