@@ -37,4 +37,4 @@ Ziel ist es die Suche so angenehm und intuitiv wie möglich für alle Betroffene
 
 == Systemarchitektur
 Grundsätzlich wird die Applikation auf einem NGINX-Server gehostet der unter http://vm85.htl-leonding.ac.at/tadeot/ erreichbar ist. Die Anwendung basiert auf HTML und JS somit läuft sie auf allen gängigen Browsern. Wird nach einem Austellungsstück gesucht und gefunden wird eine MQTT-Anfrage an den Broker geschickt der dann eine Route empfängt zum einzeichnen. Weitere Abläufe entnehmen Sie bitte der Abbildung.
-image:images/HTL-3D-SysArchitektur.png[Systemarchitektur]
+image:../images/HTL-3D-SysArchitektur.png[Systemarchitektur]
